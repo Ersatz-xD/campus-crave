@@ -1,0 +1,48 @@
+
+.badge {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    border-radius: 20px; 
+}
+
+.status-pending {
+    background-color: #ffc107; 
+    color: #000;
+}
+
+.status-preparing {
+    background-color: #fd7e14; 
+    color: white;
+}
+
+.status-ready {
+    background-color: #198754; 
+    color: white;
+    box-shadow: 0 0 0 0 rgba(25, 135, 84, 0.7);
+    animation: pulse-green 2s infinite; 
+}
+
+.status-completed {
+    background-color: #6c757d;
+    color: white;
+}
+
+.status-cancelled {
+    background-color: #dc3545;
+    color: white;
+}
+
+@keyframes pulse-green {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(25, 135, 84, 0.7);
+    }
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 10px rgba(25, 135, 84, 0);
+    }
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(25, 135, 84, 0);
+    }
+}
