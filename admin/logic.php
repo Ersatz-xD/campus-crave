@@ -23,19 +23,7 @@ if (isset($_POST['update_status'])) {
 elseif (isset($_POST['delete_item'])) {
     $product_id = $_POST['product_id'];
 
-    $img_query = "SELECT image FROM products WHERE id = $product_id";
-    $img_res = $conn->query($img_query);
-    $img_row = $img_res->fetch_assoc();
-    $file_path = "../assets/images/" . $img_row['image'];
-    if (file_exists($file_path)) {
-        unlink($file_path); 
-    }
-
-  
-    // Note: We delete from products. 
-    // (If this product is in past orders, this might error due to Foreign Keys. 
-    //  For a simple project, we assume you only delete new/unused items.)
-    $stmt = $conn->prepare("DELETE FROM products WHERE id = ?");
+    $stmt = $conn->prepare("UPDATE products SET is_active = 0 WHERE id = ?");
     $stmt->bind_param("i", $product_id);
 
     if ($stmt->execute()) {
