@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../config/db.php'; 
+require '../config/db.php';
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     header("Location: ../index.php");
@@ -16,6 +16,7 @@ $result = $conn->query($sql);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Kitchen Dashboard - CampusCrave</title>
@@ -23,6 +24,7 @@ $result = $conn->query($sql);
     <link rel="stylesheet" href="../assets/css/global.css">
     <link rel="stylesheet" href="../assets/css/admin.css">
 </head>
+
 <body>
 
     <nav class="navbar navbar-dark bg-danger px-4">
@@ -31,7 +33,10 @@ $result = $conn->query($sql);
     </nav>
 
     <div class="container mt-4">
-        <h2 class="mb-4">Live Orders Queue</h2>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Live Orders Queue</h2>
+            <a href="add_item.php" class="btn btn-success">➕ Add New Food Item</a>
+        </div>
 
         <div class="table-responsive">
             <table class="table table-hover admin-table">
@@ -46,49 +51,60 @@ $result = $conn->query($sql);
                     </tr>
                 </thead>
                 <tbody>
-                    <?php while($row = $result->fetch_assoc()): ?>
-                    <tr>
-                        <td>#<?php echo $row['id']; ?></td>
-                        <td><?php echo $row['username']; ?></td>
-                        
-                        <td>
-                            <small>
-                            <?php
-                                $o_id = $row['id'];
-                                $items_sql = "SELECT products.name, order_items.quantity 
+                    <?php while ($row = $result->fetch_assoc()): ?>
+                        <tr>
+                            <td>#<?php echo $row['id']; ?></td>
+                            <td><?php echo $row['username']; ?></td>
+
+                            <td>
+                                <small>
+                                    <?php
+                                    $o_id = $row['id'];
+                                    $items_sql = "SELECT products.name, order_items.quantity 
                                               FROM order_items 
                                               JOIN products ON order_items.product_id = products.id 
                                               WHERE order_id = $o_id";
-                                $i_result = $conn->query($items_sql);
-                                while($item = $i_result->fetch_assoc()){
-                                    echo $item['name'] . " (x" . $item['quantity'] . ")<br>";
-                                }
-                            ?>
-                            </small>
-                        </td>
+                                    $i_result = $conn->query($items_sql);
+                                    while ($item = $i_result->fetch_assoc()) {
+                                        echo $item['name'] . " (x" . $item['quantity'] . ")<br>";
+                                    }
+                                    ?>
+                                </small>
+                            </td>
 
-                        <td>Rs. <?php echo $row['total_price']; ?></td>
-                        
-                        <td class="status-text-<?php echo $row['status']; ?>">
-                            <?php echo strtoupper($row['status']); ?>
-                        </td>
+                            <td>Rs. <?php echo $row['total_price']; ?></td>
 
-                        <td>
-                            <form action="logic.php" method="POST" class="d-flex gap-2">
-                                <input type="hidden" name="order_id" value="<?php echo $row['id']; ?>">
-                                
-                                <select name="status" class="form-select form-select-sm">
-                                    <option value="pending" <?php if($row['status']=='pending') echo 'selected'; ?>>Pending</option>
-                                    <option value="preparing" <?php if($row['status']=='preparing') echo 'selected'; ?>>Preparing</option>
-                                    <option value="ready" <?php if($row['status']=='ready') echo 'selected'; ?>>Ready</option>
-                                    <option value="completed" <?php if($row['status']=='completed') echo 'selected'; ?>>Completed</option>
-                                    <option value="cancelled" <?php if($row['status']=='cancelled') echo 'selected'; ?>>Cancelled</option>
-                                </select>
+                            <td class="status-text-<?php echo $row['status']; ?>">
+                                <?php echo strtoupper($row['status']); ?>
+                            </td>
 
-                                <button type="submit" name="update_status" class="btn btn-sm btn-primary">Update</button>
-                            </form>
-                        </td>
-                    </tr>
+                            <td>
+                                <form action="logic.php" method="POST" class="d-flex gap-2">
+                                    <input type="hidden" name="order_id" value="<?php echo $row['id']; ?>">
+
+                                    <select name="status" class="form-select form-select-sm">
+                                        <option value="pending" <?php if ($row['status'] == 'pending')
+                                            echo 'selected'; ?>>
+                                            Pending</option>
+                                        <option value="preparing" <?php if ($row['status'] == 'preparing')
+                                            echo 'selected'; ?>>
+                                            Preparing</option>
+                                        <option value="ready" <?php if ($row['status'] == 'ready')
+                                            echo 'selected'; ?>>Ready
+                                        </option>
+                                        <option value="completed" <?php if ($row['status'] == 'completed')
+                                            echo 'selected'; ?>>
+                                            Completed</option>
+                                        <option value="cancelled" <?php if ($row['status'] == 'cancelled')
+                                            echo 'selected'; ?>>
+                                            Cancelled</option>
+                                    </select>
+
+                                    <button type="submit" name="update_status"
+                                        class="btn btn-sm btn-primary">Update</button>
+                                </form>
+                            </td>
+                        </tr>
                     <?php endwhile; ?>
                 </tbody>
             </table>
@@ -96,4 +112,5 @@ $result = $conn->query($sql);
     </div>
 
 </body>
+
 </html>
