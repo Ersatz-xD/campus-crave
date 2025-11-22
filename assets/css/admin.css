@@ -1,0 +1,10 @@
+
+.admin-table td {
+    vertical-align: middle;
+}
+
+.status-text-pending { color: #856404; font-weight: bold; }
+.status-text-preparing { color: #fd7e14; font-weight: bold; }
+.status-text-ready { color: #198754; font-weight: bold; }
+.status-text-completed { color: #6c757d; text-decoration: line-through; }
+.status-text-cancelled { color: #dc3545; }
