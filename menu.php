@@ -25,8 +25,12 @@ $result = $conn->query($sql);
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4">
         <a class="navbar-brand" href="#">CampusCrave 🍔</a>
+        
         <div class="ms-auto">
+            <a href="my_orders.php" class="btn btn-info text-white me-2">My Orders 📦</a>
+            
             <a href="cart.php" class="btn btn-warning">View Cart 🛒</a>
+            
             <a href="logout.php" class="btn btn-outline-light ms-2">Logout</a>
         </div>
     </nav>
