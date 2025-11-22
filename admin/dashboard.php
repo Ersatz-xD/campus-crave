@@ -12,6 +12,9 @@ $sql = "SELECT orders.*, users.username
         JOIN users ON orders.user_id = users.id 
         ORDER BY orders.created_at DESC";
 $result = $conn->query($sql);
+
+$menu_sql = "SELECT * FROM products ORDER BY id DESC";
+$menu_result = $conn->query($menu_sql);
 ?>
 
 <!DOCTYPE html>
@@ -102,6 +105,45 @@ $result = $conn->query($sql);
 
                                     <button type="submit" name="update_status"
                                         class="btn btn-sm btn-primary">Update</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endwhile; ?>
+                </tbody>
+            </table>
+        </div>
+        <hr class="my-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Manage Current Menu 🍔</h2>
+            <a href="add_item.php" class="btn btn-success">➕ Add New Food Item</a>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while ($item = $menu_result->fetch_assoc()): ?>
+                        <tr>
+                            <td style="width: 100px;">
+                                <img src="../assets/images/<?php echo $item['image']; ?>"
+                                    style="width: 60px; height: 60px; object-fit: cover; border-radius: 5px;">
+                            </td>
+                            <td class="align-middle"><?php echo $item['name']; ?></td>
+                            <td class="align-middle">Rs. <?php echo $item['price']; ?></td>
+
+                            <td class="align-middle">
+                                <form action="logic.php" method="POST"
+                                    onsubmit="return confirm('Are you sure you want to delete this item?');">
+                                    <input type="hidden" name="product_id" value="<?php echo $item['id']; ?>">
+                                    <button type="submit" name="delete_item" class="btn btn-danger btn-sm">🗑
+                                        Delete</button>
                                 </form>
                             </td>
                         </tr>
