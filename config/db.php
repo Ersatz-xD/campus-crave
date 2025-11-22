@@ -1,7 +1,7 @@
 <?php
 $hostname = "localhost";
 $username = "root";
-$password = "";
+$password = "ersatzSQL";
 $dbname   = "campus_crave";
 
 
