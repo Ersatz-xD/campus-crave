@@ -1,0 +1,9 @@
+.cart-table th, .cart-table td {
+    vertical-align: middle; 
+    text-align: center;
+}
+
+.table-dark th {
+    background-color: #333;
+    color: white;
+}
