@@ -13,7 +13,7 @@ $sql = "SELECT orders.*, users.username
         ORDER BY orders.created_at DESC";
 $result = $conn->query($sql);
 
-$menu_sql = "SELECT * FROM products ORDER BY id DESC";
+$menu_sql = "SELECT * FROM products WHERE is_active = 1 ORDER BY id DESC";
 $menu_result = $conn->query($menu_sql);
 ?>
 
