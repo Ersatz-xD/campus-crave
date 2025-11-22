@@ -1,8 +1,8 @@
 <?php
 session_start();
-require 'config/db.php'; 
+require 'config/db.php';
 
-$error = ""; 
+$error = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = trim($_POST['username']);
@@ -16,13 +16,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result->num_rows === 1) {
         $row = $result->fetch_assoc();
 
-        if ($password === $row['password']) {
-            
+        if (password_verify($password, $row['password'])) {
             $_SESSION['user_id'] = $row['id'];
             $_SESSION['role'] = $row['role'];
             $_SESSION['username'] = $username;
 
-          
             if ($row['role'] === 'admin') {
                 header("Location: admin/dashboard.php");
             } else {
