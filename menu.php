@@ -7,7 +7,7 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-$sql = "SELECT * FROM products";
+$sql = "SELECT * FROM products WHERE is_active = 1";
 $result = $conn->query($sql);
 ?>
 
