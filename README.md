@@ -11,7 +11,7 @@
 - [About The Project](#-about-the-project)
 - [Key Features](#-key-features)
 - [Tech Stack](#-tech-stack)
-- [Database Schema](#-database-schema)
+- [Detailed Database Schema](#-detailed-database-schema)
 - [Installation Guide](#-installation-guide)
 - [Usage](#-usage)
 - [Future Improvements](#-future-improvements)
@@ -56,14 +56,53 @@ Students can browse the menu, place orders, and track their food status from the
 
 ---
 
-## 🗄 Database Schema
+## 🗄 Detailed Database Schema
 
-The system uses 4 main relational tables:
+The system is built on a relational MySQL database with **4 interconnected tables**.
 
-1.  **`users`**: Stores login credentials and Roles (`admin` vs `student`).
-2.  **`products`**: Stores food menu details, prices, and image filenames.
-3.  **`orders`**: Stores the "Head" of the order (User ID, Total Price, Status, Timestamp).
-4.  **`order_items`**: Stores the "Body" of the order (Which specific items belong to which Order ID).
+### 1. `users` Table
+Stores login credentials and access levels.
+
+| Column | Type | Description |
+| :--- | :--- | :--- |
+| `id` | `INT` (PK) | Unique User ID |
+| `username` | `VARCHAR(50)` | Unique login name |
+| `password` | `VARCHAR(255)` | **Hashed** password (security) |
+| `role` | `ENUM` | Values: `'student'`, `'admin'` |
+| `created_at` | `TIMESTAMP` | Account creation time |
+
+### 2. `products` Table
+Stores the menu items available in the canteen.
+
+| Column | Type | Description |
+| :--- | :--- | :--- |
+| `id` | `INT` (PK) | Unique Product ID |
+| `name` | `VARCHAR(100)` | Name of the food item |
+| `price` | `DECIMAL(10,2)` | Cost per unit |
+| `image` | `VARCHAR(255)` | Filename stored in `assets/images/` |
+| `is_active` | `TINYINT(1)` | `1` = Visible, `0` = Soft Deleted |
+
+### 3. `orders` Table
+Represents the "Head" of an order (Who bought it and when).
+
+| Column | Type | Description |
+| :--- | :--- | :--- |
+| `id` | `INT` (PK) | Unique Order ID |
+| `user_id` | `INT` (FK) | Links to `users.id` |
+| `total_price` | `DECIMAL(10,2)` | Grand total of the order |
+| `status` | `ENUM` | `pending`, `preparing`, `ready`, `completed` |
+| `created_at` | `TIMESTAMP` | Time of order placement |
+
+### 4. `order_items` Table
+Represents the "Body" of an order (Specific items).
+
+| Column | Type | Description |
+| :--- | :--- | :--- |
+| `id` | `INT` (PK) | Unique Item Entry ID |
+| `order_id` | `INT` (FK) | Links to `orders.id` |
+| `product_id` | `INT` (FK) | Links to `products.id` |
+| `quantity` | `INT` | Number of items ordered |
+| `price_at_purchase`| `DECIMAL(10,2)`| Price frozen at time of purchase |
 
 ---
 
@@ -123,4 +162,6 @@ Use these to log in and test the system:
 ## 📬 Contact
 
 
+---
 
+*Project created for Web Engineering Course (2024)*
